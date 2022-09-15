@@ -58,6 +58,7 @@ public class TechJobs {
                 String searchField = getUserSelection("Search by:", columnChoices);
 
                 // What is their search term?
+                // \n
                 System.out.println("\nSearch term:");
                 String searchTerm = in.nextLine();
 
@@ -119,7 +120,24 @@ public class TechJobs {
 
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
-
-        System.out.println("printJobs is not implemented yet");
+        //test 1 printJobs * should match exactly!!!!
+        // i think this is in the wrong location, maybe on the search term, maybe null is not correct check!!!!
+        //if no jobs matching print no results
+        if (someJobs.isEmpty()){
+            System.out.print("No Results");
+        } else {
+            // looping through arrayList
+            for(int i = 0; i < someJobs.size(); i++) {
+//                System.out.print("\n"+"*****"+ "\n");
+                String a = "\n*****\n";
+                // looping through hashmap
+                for (Map.Entry<String, String> set: someJobs.get(i).entrySet()) {
+//                    System.out.println(set.getKey() + ": " + set.getValue());
+                    a += (set.getKey() + ": " + set.getValue() +"\n");
+                }
+                    a+= "*****";
+                System.out.println(a);
+            }
+        }
     }
 }
