@@ -5,10 +5,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by LaunchCode
@@ -69,6 +66,7 @@ public class JobData {
      * @return List of all jobs matching the criteria
      */
     public static ArrayList<HashMap<String, String>> findByColumnAndValue(String column, String value) {
+        String valueLowerCase = value.toLowerCase();
 
         // load data, if not already loaded
         loadData();
@@ -79,7 +77,7 @@ public class JobData {
 
             String aValue = row.get(column);
 
-            if (aValue.contains(value)) {
+            if (aValue.toLowerCase().contains(valueLowerCase)) {
                 jobs.add(row);
             }
         }
@@ -94,12 +92,21 @@ public class JobData {
      * @return      List of all jobs with at least one field containing the value
      */
     public static ArrayList<HashMap<String, String>> findByValue(String value) {
-
+        String valueLowerCase = value.toLowerCase();
         // load data, if not already loaded
         loadData();
 
-        // TODO - implement this method
-        return null;
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        for (HashMap<String, String> row : allJobs) {
+            // looping through hashmap make case insensitive
+            for (String aValue: row.values()) {
+                if (aValue.toLowerCase().contains(valueLowerCase)) {
+                    jobs.add(row);
+                }
+            }
+        }
+        return jobs;
     }
 
     /**
@@ -136,6 +143,8 @@ public class JobData {
 
             // flag the data as loaded, so we don't do it twice
             isDataLoaded = true;
+            //failing first test to print extra all jobs size to 98
+//            System.out.println("allJobs-size: " + allJobs.size());
 
         } catch (IOException e) {
             System.out.println("Failed to load job data");
